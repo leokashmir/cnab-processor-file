@@ -6,18 +6,19 @@ server:
 spring:
   application:
     name: cnab-processor-file
-#  datasource:
-#    url: jdbc:h2:mem:mydb
-#    username: sa
-#    password: password
-#    driverClassName: org.h2.Driver
-#    h2:
-#      console.enabled: true
-#      console.path: /h2-console
-#      console.settings.trace: false
-#      console.settings.web-allow-others: false
-#    jpa:
-#      database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:registrocreditorio
+    username: sa
+    password: master
+    driverClassName: org.h2.Driver
+    h2:
+      console.enabled: true
+      console.path: /h2-console
+      console.settings.trace: false
+      console.settings.web-allow-others: false
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      defer-datasource-initialization: true
 
 cnab:
   files:
