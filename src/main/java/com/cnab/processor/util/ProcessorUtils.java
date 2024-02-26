@@ -31,7 +31,6 @@ public class ProcessorUtils {
         try {
 
             BigInteger value = new BigInteger(str);
-
             BigInteger integerPart2 = value.divide(new BigInteger("100"));
             BigInteger decimalPart2 = value.remainder(new BigInteger("100"));
 
