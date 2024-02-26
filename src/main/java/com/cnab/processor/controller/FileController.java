@@ -19,8 +19,8 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ProcessorResponse> handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-            return new ResponseEntity<ProcessorResponse>(fileService.validateFile(file), HttpStatus.OK);
+    public ResponseEntity<ProcessorResponse> handleFileUpload(@RequestParam("file") MultipartFile file)  {
+            return new ResponseEntity<ProcessorResponse>(fileService.processorFile(file), HttpStatus.OK);
     }
 
     @GetMapping("/hello")

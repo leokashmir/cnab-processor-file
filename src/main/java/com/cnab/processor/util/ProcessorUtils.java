@@ -1,5 +1,8 @@
 package com.cnab.processor.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class ProcessorUtils {
 
     public static boolean isNumeric(String str) {
@@ -24,16 +27,22 @@ public class ProcessorUtils {
         return str.length() == 80;
     }
 
-    public static Double parseStringToValueDecinal(String str){
+    public static BigDecimal parseStringToValueDecinal(String str){
         try {
 
-            int value = Integer.parseInt(str);
-            int decimalPart = value % 100;
-            int integerPart = value / 100;
-            return Double.parseDouble(integerPart + "." + decimalPart);
+            BigInteger value = new BigInteger(str);
+
+            BigInteger integerPart2 = value.divide(new BigInteger("100"));
+            BigInteger decimalPart2 = value.remainder(new BigInteger("100"));
+
+            String allPart = integerPart2.toString()
+                    .concat(".")
+                    .concat((decimalPart2.toString().equals("0")) ? "00": decimalPart2.toString());;
+
+            return new BigDecimal(allPart);
 
         }catch (NumberFormatException e){
-            return 0.0;
+            return new BigDecimal("0.00");
         }
     }
 

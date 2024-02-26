@@ -5,6 +5,7 @@ import com.cnab.processor.exceptions.InvalidFileException;
 import com.cnab.processor.exceptions.response.ErroFile;
 import com.cnab.processor.response.Transaction;
 import com.cnab.processor.util.ProcessorUtils;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -25,9 +26,9 @@ public class TransactionValidator implements Validator {
 
         try (Stream<String> lines =  Files.lines(Path.of(file.getAbsolutePath()))) {
             lines.forEach(this::transactionLine);
-           numberLine++;
-        }catch (Exception e){
 
+        }catch (Exception e){
+            throw new InvalidFileException();
         }
 
         return Optional.of(listTransactions);
@@ -36,18 +37,20 @@ public class TransactionValidator implements Validator {
 
     }
 
+    @SneakyThrows
     private void transactionLine(String line){
         boolean addTransaction = true;
+        numberLine++;
+
+        if(!ProcessorUtils.isCorrectlength(line)){
+            throw new InvalidFileException();
+        }
 
         if("001".equals(line.substring(0,3))){
             listTransactions.add(line.substring(32,47));
         }
 
-        if(!ProcessorUtils.isCorrectlength(line) && "002".equals(line.substring(0,3))){
-            throw new InvalidFileException();
-
-        }else{
-
+        if("002".equals(line.substring(0,3))){
             if(!ProcessorUtils.isNumeric(line.substring(0,3))){
                 listTransactions.add(ErroFile.builder()
                         .error(TransactionErroEnum.IDENTIFICACAO_TIPO_REGISTRO.getValue())
@@ -99,7 +102,6 @@ public class TransactionValidator implements Validator {
                         .value(ProcessorUtils.parseStringToValueDecinal(line.substring(4, 20)))
                         .build());
             }
-
 
         }
     }

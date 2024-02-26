@@ -28,7 +28,7 @@ public class ProcessorExceptionHandler {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionHandleResponse.builder()
                             .status("ERRO")
-                            .message(exception.getCause().getMessage())
+                            .message(exception.getMessage())
                     .build());
 
     }

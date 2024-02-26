@@ -2,10 +2,12 @@ package com.cnab.processor.service;
 
 import com.cnab.processor.config.StorageFileConfig;
 import com.cnab.processor.exceptions.response.ErroFile;
+import com.cnab.processor.process.ProcessorFile;
 import com.cnab.processor.response.Data;
 import com.cnab.processor.response.ProcessorResponse;
 import com.cnab.processor.response.Transaction;
 import com.cnab.processor.validators.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,61 +29,58 @@ public class FileService {
     @Autowired
     private StorageFileConfig storageFileConfig;
 
+    @Autowired
+    private ProcessorFile processor;
+
     private ValidatorFileAggregator validatorFileAggregator;
 
+    private List<Transaction> transactionList;
 
-    public ProcessorResponse validateFile(MultipartFile file) throws IOException {
-        Path path =  storageFileConfig.getDirFileUpload();
+    private List<ErroFile> lstErroFile;
+
+    private String idEmpresa ;
+
+
+    @SneakyThrows
+    public ProcessorResponse processorFile(MultipartFile file) {
+
+        preProcessorFile(this.validateFile(file));
+        processor.checkErro(lstErroFile);
+        processor.saveTransactions(idEmpresa, transactionList );
+        return response(transactionList);
+
+    }
+    private List<Object>  validateFile(MultipartFile file) throws IOException {
 
         File newFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(newFile)) {
             fos.write(file.getBytes());
         }
 
-
         validatorFileAggregator = new ValidatorFileAggregator(setValidationsFile(), newFile);
-        processorFile(validatorFileAggregator.validate());
-
-
-        return response();
-
+        return validatorFileAggregator.validate();
 
     }
 
 
-    private void processorFile( List<Object> validatedFile){
+    private void preProcessorFile(List<Object> validatedFile){
 
-        if(!validatedFile.isEmpty()){
-
-            List<Transaction> transactionList = validatedFile.stream()
+            transactionList = validatedFile.stream()
                     .filter( obj -> obj instanceof Transaction )
                     .map(obj -> (Transaction) obj)
                     .toList();
 
-            List<ErroFile> lstErroFile = validatedFile.stream()
+            lstErroFile = validatedFile.stream()
                     .filter(  obj -> obj instanceof ErroFile )
                     .map(obj -> (ErroFile) obj)
                     .toList();
 
-            String idEmpresa = validatedFile.stream()
+             idEmpresa = validatedFile.stream()
                     .filter(  obj -> obj instanceof String )
                     .map(Object::toString )
                     .collect(Collectors.joining());
 
-
-
-            System.out.println("IdEmpresa =>" + idEmpresa);
-            System.out.println("Lista Erro tamanho =>" + lstErroFile.size());
-            System.out.println("Lista transactionList tamanho =>" + transactionList.size());
-        }
-
-
-
-
-
     }
-
-
 
     private List<Validator> setValidationsFile(){
         List<Validator> validatorList = new ArrayList<>();
@@ -93,25 +92,13 @@ public class FileService {
     }
 
 
-    private ProcessorResponse response(){
-        List<Transaction> transactionList = new ArrayList<Transaction>();
-
-        transactionList.add(
-                Transaction.builder()
-                        .value(123.9)
-                        .type("C")
-                        .accountOrigin("2394")
-                        .accountDestination("342")
-                        .build()
-
-        );
-
+    private ProcessorResponse response(List<Transaction> transactionList){
         return ProcessorResponse.builder()
                 .data(Data.builder()
                         .transactions(transactionList)
                         .build())
-                .status("OK")
-                .message("message")
+                .status("success")
+                .message("Arquivo CNAB enviado e processado com sucesso.")
                 .build();
     }
 }
