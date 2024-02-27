@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 public enum TransactionErroEnum {
 
     IDENTIFICACAO_TIPO_REGISTRO("Identificação do tipo de registro"),
-    TIPO_TRANSACAO("Tipo de transação (C para Crédito, D para Débito, T para Transferência)"),
-    VALOR_TRANSACAO("Valor da transaçã (formato decimal, sem ponto decimal)"),
-    CONTA_ORIGEM("Conta origem"),
-    CONTA_DESTINO("Conta destino");
+    TIPO_TRANSACAO("Tipo de transação inválido"),
+    VALOR_TRANSACAO("Valor da transação não pode ser nulo"),
+    CONTA_ORIGEM("Conta origem é obrigatória."),
+    CONTA_DESTINO("Conta destino é obrigatória");
 
 
     private final String value;

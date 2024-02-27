@@ -1,6 +1,7 @@
 package com.cnab.processor.service;
 
 import com.cnab.processor.config.StorageFileConfig;
+import com.cnab.processor.exceptions.InvalidFileException;
 import com.cnab.processor.exceptions.response.ErroFile;
 import com.cnab.processor.model.Company;
 import com.cnab.processor.process.ProcessorFile;
@@ -49,11 +50,15 @@ public class FileService {
         return response(transactionDtoList);
 
     }
-    private List<Object>  validateFile(MultipartFile file) throws IOException {
+    private List<Object>  validateFile(MultipartFile file)  {
+
 
         File newFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(newFile)) {
             fos.write(file.getBytes());
+
+        }catch (InvalidFileException | IOException i){
+            throw new InvalidFileException();
         }
 
         validatorFileAggregator = new ValidatorFileAggregator(setValidationsFile(), newFile);

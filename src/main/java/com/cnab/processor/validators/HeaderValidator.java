@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -17,10 +18,10 @@ public class HeaderValidator implements  Validator{
     public Optional<List<Object>> validate(File file ) {
 
         try (Stream<String> lines =  Files.lines(Path.of(file.getAbsolutePath()))) {
-           var header = lines.findFirst();
-           header.ifPresent(this::headerLine);
+           var header = lines.findFirst().orElseThrow();
+            headerLine(header);
 
-        }catch (InvalidFileException | IOException e){
+        }catch (NoSuchElementException | InvalidFileException | IOException e){
             throw new InvalidFileException();
         }
 
