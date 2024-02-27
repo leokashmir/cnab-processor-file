@@ -56,6 +56,5 @@ public class HeaderValidator implements  Validator{
 
         }
 
-        System.out.println("HEADER => " + headerLine.substring(3,33));
     }
 }

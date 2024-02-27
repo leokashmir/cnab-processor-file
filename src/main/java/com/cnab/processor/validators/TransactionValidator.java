@@ -3,7 +3,8 @@ package com.cnab.processor.validators;
 import com.cnab.processor.enumerator.TransactionErroEnum;
 import com.cnab.processor.exceptions.InvalidFileException;
 import com.cnab.processor.exceptions.response.ErroFile;
-import com.cnab.processor.response.Transaction;
+import com.cnab.processor.dto.TransactionDto;
+import com.cnab.processor.model.Company;
 import com.cnab.processor.util.ProcessorUtils;
 import lombok.SneakyThrows;
 
@@ -47,7 +48,9 @@ public class TransactionValidator implements Validator {
         }
 
         if("001".equals(line.substring(0,3))){
-            listTransactions.add(line.substring(32,47));
+            var companyName = ProcessorUtils.removeTrailingSpaces(line.substring(3,32));
+            listTransactions.add(Company.of(
+                    null, companyName,line.substring(32,47), null));
         }
 
         if("002".equals(line.substring(0,3))){
@@ -95,7 +98,7 @@ public class TransactionValidator implements Validator {
             };
 
             if(addTransaction ) {
-                listTransactions.add(Transaction.builder()
+                listTransactions.add(TransactionDto.builder()
                         .type(line.substring(3, 4))
                         .accountOrigin(line.substring(20, 36))
                         .accountDestination(line.substring(36, 52))

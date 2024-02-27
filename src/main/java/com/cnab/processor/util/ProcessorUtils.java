@@ -45,5 +45,10 @@ public class ProcessorUtils {
         }
     }
 
+    // Metodo para remover espaços em branco após a última letra
+    public static String removeTrailingSpaces(String str) {
+
+        return str.replaceAll("\\s+$", "");
+    }
 
 }

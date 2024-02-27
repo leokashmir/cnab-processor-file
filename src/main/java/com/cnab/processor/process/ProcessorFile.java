@@ -2,7 +2,8 @@ package com.cnab.processor.process;
 
 import com.cnab.processor.exceptions.TransactionException;
 import com.cnab.processor.exceptions.response.ErroFile;
-import com.cnab.processor.response.Transaction;
+import com.cnab.processor.dto.TransactionDto;
+import com.cnab.processor.model.Company;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class ProcessorFile {
         }
     }
 
-    public void saveTransactions(String idEmpresa,List<Transaction> transactionList ){
-
+    public void saveTransactions(Company company, List<TransactionDto> transactionDtoList){
+            System.out.println(company.getCompanyName());
     }
 
 }
