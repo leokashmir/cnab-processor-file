@@ -1,13 +1,12 @@
 package com.cnab.processor.service;
 
-import com.cnab.processor.config.StorageFileConfig;
+import com.cnab.processor.dto.TransactionDto;
 import com.cnab.processor.exceptions.InvalidFileException;
 import com.cnab.processor.exceptions.response.ErroFile;
 import com.cnab.processor.model.Company;
 import com.cnab.processor.process.ProcessorFile;
 import com.cnab.processor.response.Data;
 import com.cnab.processor.response.ProcessorResponse;
-import com.cnab.processor.dto.TransactionDto;
 import com.cnab.processor.validators.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class FileService {

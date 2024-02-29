@@ -19,12 +19,8 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ProcessorResponse> handleFileUpload(@RequestParam("file") MultipartFile file)  {
+    public ResponseEntity<ProcessorResponse> fileUpload(@RequestParam("file") MultipartFile file)  {
             return new ResponseEntity<ProcessorResponse>(fileService.processorFile(file), HttpStatus.OK);
     }
 
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return "Hello, World!";
-    }
 }

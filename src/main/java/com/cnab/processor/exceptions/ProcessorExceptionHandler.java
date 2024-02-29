@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 public class ProcessorExceptionHandler {
 
     private static final String ERRO = "Erro";
+    private static final String ERRO_PROCESS = "Ocorreu um erro durante o processamento do arquivo. ";
 
     @ExceptionHandler(TransactionException.class)
     public ResponseEntity<ExceptionHandleResponse> handleTransaction(TransactionException exception, WebRequest request){
@@ -37,7 +38,7 @@ public class ProcessorExceptionHandler {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionHandleResponse.builder()
                             .status(ERRO)
-                            .message(exception.getMessage())
+                            .message(ERRO_PROCESS.concat(exception.getMessage()))
                     .build());
 
     }

@@ -3,10 +3,7 @@ package com.cnab.processor.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import java.math.BigDecimal;
@@ -14,9 +11,10 @@ import java.math.BigDecimal;
 import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
-@Getter @Setter
+@Data
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor(staticName = "of")
+@AllArgsConstructor
 @Table(name = "TRANSACTION")
 public class Transaction {
 
