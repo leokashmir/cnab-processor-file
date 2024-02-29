@@ -23,11 +23,20 @@ public class ProcessorExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getExceptionHandleResponse());
     }
 
+    @ExceptionHandler(TransactionSaveException.class)
+    public ResponseEntity<ExceptionHandleResponse> handleTrsanactionSaveErro(InvalidFileException exception, WebRequest request){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getExceptionHandleResponse());
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionHandleResponse> handleException(InvalidFileException exception, WebRequest request){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getExceptionHandleResponse());
+    }
+
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ExceptionHandleResponse> handleThrowable(Throwable exception, WebRequest request) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionHandleResponse.builder()
-                            .status("ERRO")
+                            .status(ERRO)
                             .message(exception.getMessage())
                     .build());
 

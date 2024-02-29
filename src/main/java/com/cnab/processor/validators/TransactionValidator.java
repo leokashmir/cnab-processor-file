@@ -50,7 +50,7 @@ public class TransactionValidator implements Validator {
         if("001".equals(line.substring(0,3))){
             var companyName = ProcessorUtils.removeTrailingSpaces(line.substring(3,32));
             listTransactions.add(Company.of(
-                    null, companyName,line.substring(32,47), null));
+                    null, companyName,line.substring(32,47)));
         }
 
         if("002".equals(line.substring(0,3))){

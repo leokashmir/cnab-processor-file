@@ -27,21 +27,13 @@ public class FileService {
 
 
     @Autowired
-    private StorageFileConfig storageFileConfig;
-
-    @Autowired
     private ProcessorFile processor;
-
     private ValidatorFileAggregator validatorFileAggregator;
-
     private List<TransactionDto> transactionDtoList;
-
     private List<ErroFile> lstErroFile;
-
     private Company company ;
 
 
-    @SneakyThrows
     public ProcessorResponse processorFile(MultipartFile file) {
 
         preProcessorFile(this.validateFile(file));
@@ -50,8 +42,16 @@ public class FileService {
         return response(transactionDtoList);
 
     }
-    private List<Object>  validateFile(MultipartFile file)  {
+    private List<Validator> validationsFileList(){
+        List<Validator> validatorList = new ArrayList<>();
+        validatorList.add(new HeaderValidator());
+        validatorList.add(new FootValidator());
+        validatorList.add(new TransactionValidator());
 
+        return validatorList;
+    }
+    @SneakyThrows
+    private List<Object> validateFile(MultipartFile file)  {
 
         File newFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(newFile)) {
@@ -61,12 +61,11 @@ public class FileService {
             throw new InvalidFileException();
         }
 
-        validatorFileAggregator = new ValidatorFileAggregator(setValidationsFile(), newFile);
+        validatorFileAggregator = new ValidatorFileAggregator(validationsFileList(), newFile);
         return validatorFileAggregator.validate();
 
     }
-
-
+    @SneakyThrows
     private void preProcessorFile(List<Object> validatedFile){
 
             transactionDtoList = validatedFile.stream()
@@ -85,16 +84,6 @@ public class FileService {
                     .findFirst().get();
 
     }
-
-    private List<Validator> setValidationsFile(){
-        List<Validator> validatorList = new ArrayList<>();
-        validatorList.add(new HeaderValidator());
-        validatorList.add(new FootValidator());
-        validatorList.add(new TransactionValidator());
-
-        return validatorList;
-    }
-
 
     private ProcessorResponse response(List<TransactionDto> transactionDtoList){
         return ProcessorResponse.builder()
