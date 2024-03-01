@@ -20,7 +20,12 @@ spring:
       database-platform: org.hibernate.dialect.H2Dialect
       defer-datasource-initialization: true
 
-cnab:
-  files:
-    upload:
-      dir: uploadfiles
+
+logging:
+  pattern:
+    console: "%date{dd/MM/yyyy E HH:mm:ss.SSS} - [%X{mdcId}] - [%p] - [%thread] - %c:%line - %m %n"
+  level:
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.springframework: INFO
+    com.cnab.processor: DEBUG

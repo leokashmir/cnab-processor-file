@@ -5,16 +5,22 @@ import com.cnab.processor.model.Transaction;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Log4j2
 @AllArgsConstructor
 public class TransactionsSpecifitaion {
 
     private Transaction transaction;
 
+    /**
+     * Constrói uma especificação de consulta dinâmica para transações com base nos critérios fornecidos.
+     *
+     * @return Uma especificação de consulta para transações com os critérios fornecidos.
+     */
     public Specification<Transaction> dinamicQuery(){
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList();

@@ -11,12 +11,14 @@ import com.cnab.processor.repository.CompanyRepository;
 import com.cnab.processor.repository.TransactionsRepository;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Log4j2
 @AllArgsConstructor
 public class ProcessorFile {
 
@@ -29,24 +31,32 @@ public class ProcessorFile {
             throw new TransactionException(lstErroFile);
         }
     }
-    @Transactional @SneakyThrows(TransactionSaveException.class)
+
+    @Transactional
+    @SneakyThrows(TransactionSaveException.class)
     public void saveTransactions(Company companyToSave, List<TransactionDto> transactionDtoList) {
-       try {
-           List<Transaction> transactions = mapper.mapList(transactionDtoList, Transaction.class);
-           Company company = companyRepository.findByCompanyId(companyToSave.getCompanyId());
+        log.info("{} - {}", "Salvando Transacoes Company Name  => ", companyToSave.getCompanyName());
+        try {
+            List<Transaction> transactions = mapper.mapList(transactionDtoList, Transaction.class);
+            Company company = companyRepository.findByCompanyId(companyToSave.getCompanyId());
 
-           if (company == null) {
-               company = companyRepository.save(companyToSave);
-           }
+            if (company == null) {
+                company = companyRepository.save(companyToSave);
+            }
+            log.info("{} - {} ", "Company ID => ", company.getCompanyId());
 
-           for (Transaction t : transactions) {
-               t.setCompany(company);
-           }
-           repository.saveAll(transactions);
+            for (Transaction t : transactions) {
+                t.setCompany(company);
+            }
 
-       }catch (Exception e){
-           throw new TransactionSaveException();
-       }
+            repository.saveAll(transactions);
+
+            log.info("{} - {} - {} ", transactions.size() ," Transacoes Salvas - Company ID => ", company.getCompanyId());
+        } catch (Exception e) {
+
+            log.error("{} - {} ", e.getMessage(), "Erro ao salvar transações");
+            throw new TransactionSaveException();
+        }
     }
 
 }

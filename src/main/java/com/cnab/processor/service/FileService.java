@@ -9,6 +9,7 @@ import com.cnab.processor.response.Data;
 import com.cnab.processor.response.ProcessorResponse;
 import com.cnab.processor.validators.*;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@Log4j2
 @Service
 public class FileService {
 
@@ -32,6 +33,13 @@ public class FileService {
     private Company company ;
 
 
+    /**
+     * Processa um arquivo e retorna uma resposta do processador.
+     *
+     * @param file O arquivo a ser processado.
+     * @return Uma resposta do processador contendo informações sobre o processamento do arquivo.
+     * @throws FileValidationException Se o arquivo não for válido.
+     */
     public ProcessorResponse processorFile(MultipartFile file) {
 
         preProcessorFile(this.validateFile(file));
@@ -40,6 +48,12 @@ public class FileService {
         return response(transactionDtoList);
 
     }
+
+    /**
+     * Retorna uma lista de validadores de arquivos.
+     *
+     * @return Uma lista contendo instâncias de validadores de cabeçalho, rodapé e transações.
+     */
     private List<Validator> validationsFileList(){
         List<Validator> validatorList = new ArrayList<>();
         validatorList.add(new HeaderValidator());
@@ -48,6 +62,14 @@ public class FileService {
 
         return validatorList;
     }
+
+    /**
+     * Valida o arquivo fornecido e retorna uma lista de objetos validados.
+     *
+     * @param file O arquivo a ser validado, fornecido como um objeto MultipartFile.
+     * @return Uma lista de objetos validados extraídos do arquivo.
+     * @throws InvalidFileException Se ocorrer um erro durante a validação do arquivo.
+     */
     @SneakyThrows
     private List<Object> validateFile(MultipartFile file)  {
 
@@ -63,6 +85,13 @@ public class FileService {
         return validatorFileAggregator.validate();
 
     }
+
+    /**
+     * Pré-processa os dados validados do arquivo, Filtrando
+     * e mapeando os objetos da lista validatedFile
+     *
+     * @param validatedFile A lista de objetos validados do arquivo.
+     */
     @SneakyThrows
     private void preProcessorFile(List<Object> validatedFile){
 
