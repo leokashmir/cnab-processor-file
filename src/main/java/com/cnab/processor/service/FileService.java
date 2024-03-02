@@ -38,7 +38,7 @@ public class FileService {
      *
      * @param file O arquivo a ser processado.
      * @return Uma resposta do processador contendo informações sobre o processamento do arquivo.
-     * @throws FileValidationException Se o arquivo não for válido.
+     * @throws InvalidFileException Se o arquivo não for válido.
      */
     public ProcessorResponse processorFile(MultipartFile file) {
 
