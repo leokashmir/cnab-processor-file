@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TRANSACTION")
@@ -38,15 +39,5 @@ public class Transaction {
     @Column(name = "ACC_DESTINATION")
     private String accountDestination;
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", company=" + company +
-                ", type='" + type + '\'' +
-                ", value=" + value +
-                ", accountOrigin='" + accountOrigin + '\'' +
-                ", accountDestination='" + accountDestination + '\'' +
-                '}';
-    }
+
 }

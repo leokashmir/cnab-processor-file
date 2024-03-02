@@ -6,20 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class FootValidatorTest {
 
     private FootValidator footValidator;
-
-    private static final String PATH_FOOTER_VALIDO = "src/test/resources/cnab-valido.txt";
-    private static final String PATH_FOOTER_LENGTH_INVALIDO = "src/test/resources/cnab-footer-length-invalido- .txt";
-    private static final String PATH_FOOTER_REG_INVALIDO = "src/test/resources/cnab-footer-reg-invalido.txt";
-
 
     @BeforeEach
     void setUp() {
@@ -27,35 +21,29 @@ class FootValidatorTest {
     }
 
     @Test
-    void validate_ValidFooter_NoExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_FOOTER_VALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void validFooterNoExceptionThrown() throws IOException {
+        File file = createTempFile("003                                                                             ");
         assertDoesNotThrow(() -> footValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidFooterLength_ExceptionThrown() {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_FOOTER_LENGTH_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidFooterLengthExceptionThrown() throws IOException {
+        File file = createTempFile("003                    ");
         assertThrows(InvalidFileException.class, () -> footValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidNumericFooter_ExceptionThrown() {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_FOOTER_REG_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
+    void invalidNumericFooterExceptionThrown() throws IOException {
+        File file = createTempFile("0W3");
         assertThrows(InvalidFileException.class, () -> footValidator.validate(file));
     }
 
-
+    private File createTempFile(String content) throws IOException {
+        File file = File.createTempFile("test", ".txt");
+        file.deleteOnExit();
+        Files.writeString(file.toPath(), content);
+        return file;
+    }
 
 
 }

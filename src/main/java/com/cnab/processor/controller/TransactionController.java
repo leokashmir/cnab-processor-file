@@ -33,7 +33,7 @@ public class TransactionController {
              @RequestHeader(value = "accountOrigin", required = false) String accountOrigin,
              @RequestHeader(value = "accountDestination", required = false) String accountDestination,
              @RequestHeader(value = "type", required = false) String type,
-             @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
              @RequestParam(value = "pageNumber", defaultValue = "20") int pageSize) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);

@@ -10,21 +10,10 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class HeaderValidatorTest {
 
     private  HeaderValidator headerValidator;
-
-    private static final String PATH_HEADER_VALIDO = "src/test/resources/cnab-valido.txt";
-    private static final String PATH_HEADER_LENGTH_INVALIDO = "src/test/resources/cnab-header-length-invalido.txt";
-    private static final String PATH_HEADER_REG_INVALIDO = "src/test/resources/cnab-header-reg-invalido.txt";
-
-    private static final String PATH_HEADER_NAME_COMPANY_VALIDO = "src/test/resources/cnab-header-name-company-invalido.txt";
-    private static final String PATH_HEADER_SPECIAL_CHAR_NAME_COMPANY_INVALIDO = "cnab-header-special-char-name-company-invalido.txt";
-    private static final String PATH_HEADER_ID_NUMERIC_INVALIDO = "cnab-header-id-numerico-company-invalido.txt";
-    private static final String PATH_HEADER_ID_COMPANY_INVALIDO = "cnab-header-id-company-invalido.txt";
 
     @BeforeEach
     void setUp() {
@@ -32,75 +21,54 @@ class HeaderValidatorTest {
     }
 
     @Test
-    void validate_ValidHeader_NoExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_VALIDO);
-        when(file.exists()).thenReturn(true);
-
+    void validHeaderNoExceptionThrown() throws IOException {
+        File file = createTempFile("001Empresa A                     1900011200010000          Empresa A            ");
         assertDoesNotThrow(() -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidLength_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_LENGTH_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidLengthExceptionThrown() throws IOException {
+        File file = createTempFile("001Empresa A                     1900011200010000          Empresa A");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidNumeric_Register_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_REG_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidNumericRegister_ExceptionThrown() throws IOException {
+        File file = createTempFile("0YZEmpresa A                     1900011200010000          Empresa A            ");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidNameCompany_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_NAME_COMPANY_VALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidNameCompanyExceptionThrown() throws IOException {
+        File file = createTempFile("001                              1900011200010000          Empresa A            ");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidSpecialCharNameCompany_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_SPECIAL_CHAR_NAME_COMPANY_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidSpecialCharNameCompanyExceptionThrown() throws IOException {
+        File file = createTempFile("001@#%&esa A                     1900011200010000          Empresa A            ");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidWhiteSpaces_IdCompany_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_ID_COMPANY_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidWhiteSpacesIdCompanyExceptionThrown() throws IOException {
+        File file = createTempFile("001Empresa A                                   00          Empresa A            ");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
     @Test
-    void validate_InvalidNumeric_IdCompany_ExceptionThrown() throws IOException {
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn(PATH_HEADER_ID_NUMERIC_INVALIDO);
-        when(file.exists()).thenReturn(true);
-
-
+    void invalidNumericIdCompanyExceptionThrown() throws IOException {
+        File file = createTempFile("001Empresa A                     1EDFw1120d010000          Empresa A            ");
         assertThrows(InvalidFileException.class, () -> headerValidator.validate(file));
     }
 
 
+    private File createTempFile(String content) throws IOException {
+        File file = File.createTempFile("test", ".txt");
+        file.deleteOnExit();
+        Files.writeString(file.toPath(), content);
+        return file;
+    }
 
 
 }
