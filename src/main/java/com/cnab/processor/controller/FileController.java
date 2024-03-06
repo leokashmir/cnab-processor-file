@@ -25,6 +25,7 @@ public class FileController {
     @Operation(
             description = "Upload File",
             responses = {
+                    @ApiResponse(responseCode = "200", ref = "uploadSuccess"),
                     @ApiResponse(responseCode = "400",ref = "badRequestUpload"),
                     @ApiResponse(responseCode = "500",ref = "internalServerError")
             }
