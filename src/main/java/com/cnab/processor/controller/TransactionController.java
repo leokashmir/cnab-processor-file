@@ -1,6 +1,5 @@
 package com.cnab.processor.controller;
 
-import com.cnab.processor.exceptions.response.ErroFile;
 import com.cnab.processor.model.Transaction;
 import com.cnab.processor.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,8 +42,4 @@ public class TransactionController {
                 service.findTransactions(page, companyName, companyId, accountOrigin, accountDestination, type), HttpStatus.OK);
     }
 
-    @GetMapping("/ola")
-    public ResponseEntity<ErroFile> hello(){
-        return new ResponseEntity<ErroFile>(ErroFile.builder().line("1").error("ooola").build(), HttpStatus.OK);
-    }
 }
