@@ -102,4 +102,12 @@ public class ProcessorUtils {
         return str.replaceAll("\\s+$", "");
     }
 
+    /**
+     * Verifica se uma string contém apenas o caractere '0'.
+     *
+     * @param str A string a ser verificada.
+     * @return true se a string contém apenas o caractere '0', caso contrário, false.
+     */
+    public static boolean containsOnlyZero(String str) {  return str.matches( "^0*$");  }
+
 }

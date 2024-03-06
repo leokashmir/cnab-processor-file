@@ -75,7 +75,6 @@ public class TransactionValidator implements Validator {
                 addTransaction = false;
 
             }
-            ;
             if (!line.substring(3, 4).matches("[CDT]")) {
                 listTransactions.add(ErroFile.builder()
                         .error(TransactionErroEnum.TIPO_TRANSACAO.getValue())
@@ -85,8 +84,16 @@ public class TransactionValidator implements Validator {
 
 
             }
-            ;
             if (!ProcessorUtils.isNumeric(line.substring(4, 20))) {
+                listTransactions.add(ErroFile.builder()
+                        .error(TransactionErroEnum.FORMATO_TRANSACAO.getValue())
+                        .line(String.valueOf(numberLine))
+                        .build());
+                addTransaction = false;
+
+
+            }
+            if (ProcessorUtils.containsOnlyZero(line.substring(4, 20))) {
                 listTransactions.add(ErroFile.builder()
                         .error(TransactionErroEnum.VALOR_TRANSACAO.getValue())
                         .line(String.valueOf(numberLine))
@@ -95,7 +102,6 @@ public class TransactionValidator implements Validator {
 
 
             }
-            ;
             if (!ProcessorUtils.isNumeric(line.substring(20, 36))) {
                 listTransactions.add(ErroFile.builder()
                         .error(TransactionErroEnum.CONTA_ORIGEM.getValue())
@@ -104,7 +110,14 @@ public class TransactionValidator implements Validator {
                 addTransaction = false;
 
             }
-            ;
+            if (ProcessorUtils.containsOnlyZero(line.substring(20, 36))) {
+                listTransactions.add(ErroFile.builder()
+                        .error(TransactionErroEnum.CONTA_ORIGEM.getValue())
+                        .line(String.valueOf(numberLine))
+                        .build());
+                addTransaction = false;
+
+            }
             if (!ProcessorUtils.isNumeric(line.substring(36, 52))) {
                 listTransactions.add(ErroFile.builder()
                         .error(TransactionErroEnum.CONTA_DESTINO.getValue())
@@ -113,8 +126,14 @@ public class TransactionValidator implements Validator {
                 addTransaction = false;
 
             }
-            ;
+            if (ProcessorUtils.containsOnlyZero(line.substring(36, 52))) {
+                listTransactions.add(ErroFile.builder()
+                        .error(TransactionErroEnum.CONTA_DESTINO.getValue())
+                        .line(String.valueOf(numberLine))
+                        .build());
+                addTransaction = false;
 
+            }
             if (addTransaction) {
                 listTransactions.add(TransactionDto.builder()
                         .type(line.substring(3, 4))

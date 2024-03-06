@@ -9,7 +9,8 @@ public enum TransactionErroEnum {
 
     IDENTIFICACAO_TIPO_REGISTRO("Identificação do tipo de registro"),
     TIPO_TRANSACAO("Tipo de transação inválido"),
-    VALOR_TRANSACAO("Valor da transação não pode ser nulo"),
+    VALOR_TRANSACAO("Valor da transação não pode ser nulo ou zerado"),
+    FORMATO_TRANSACAO("Valor da transação está fora do formato válido."),
     CONTA_ORIGEM("Conta origem é obrigatória."),
     CONTA_DESTINO("Conta destino é obrigatória");
 

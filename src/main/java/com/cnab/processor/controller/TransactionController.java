@@ -1,5 +1,6 @@
 package com.cnab.processor.controller;
 
+import com.cnab.processor.exceptions.response.ErroFile;
 import com.cnab.processor.model.Transaction;
 import com.cnab.processor.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/transactions")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class TransactionController {
 
     private TransactionService service;
@@ -33,13 +35,16 @@ public class TransactionController {
              @RequestHeader(value = "accountOrigin", required = false) String accountOrigin,
              @RequestHeader(value = "accountDestination", required = false) String accountDestination,
              @RequestHeader(value = "type", required = false) String type,
-             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-             @RequestParam(value = "pageNumber", defaultValue = "20") int pageSize) {
+             @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+             @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return new ResponseEntity<List<Transaction>>(
                 service.findTransactions(page, companyName, companyId, accountOrigin, accountDestination, type), HttpStatus.OK);
+    }
 
-
+    @GetMapping("/ola")
+    public ResponseEntity<ErroFile> hello(){
+        return new ResponseEntity<ErroFile>(ErroFile.builder().line("1").error("ooola").build(), HttpStatus.OK);
     }
 }

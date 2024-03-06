@@ -25,25 +25,31 @@ public class TransactionsSpecifitaion {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList();
 
-            if(transaction.getCompany().getCompanyName() != null){
+            if(transaction.getCompany().getCompanyName() != null &&  !transaction.getCompany().getCompanyName().isEmpty()){
                 Path<Company> company = root.<Company>get("company");
                 Path<String>  campoCompanyName = company.get("companyName");
                 Predicate predicateCompanyName = builder.like(campoCompanyName , "%" + transaction.getCompany().getCompanyName() + "%");
                 predicates.add(predicateCompanyName);
             }
-            if(transaction.getType() != null){
+            if(transaction.getCompany().getCompanyId() != null && !transaction.getCompany().getCompanyId().isEmpty()){
+                Path<Company> company = root.<Company>get("company");
+                Path<String>  campoCompanyName = company.get("companyId");
+                Predicate predicateCompanyId = builder.like(campoCompanyName , "%" + transaction.getCompany().getCompanyId() + "%");
+                predicates.add(predicateCompanyId);
+            }
+            if(transaction.getType() != null && !transaction.getType().isEmpty() ){
                 Path<String> campoType = root.<String>get("type");
                 Predicate predicateType = builder.equal(campoType,transaction.getType() );
                 predicates.add(predicateType);
             }
-            if(transaction.getAccountOrigin() != null){
+            if(transaction.getAccountOrigin() != null && !transaction.getAccountOrigin().isEmpty()){
                 Path<String> campoAccountOrigin = root.<String>get("accountOrigin");
-                Predicate predicateAccOrgin = builder.like(campoAccountOrigin, "%" +  transaction.getType() + "%" );
+                Predicate predicateAccOrgin = builder.like(campoAccountOrigin, "%" +  transaction.getAccountOrigin() + "%" );
                 predicates.add(predicateAccOrgin);
             }
-            if(transaction.getAccountDestination() != null){
+            if(transaction.getAccountDestination() != null && !transaction.getAccountDestination().isEmpty()){
                 Path<String> campoAccountDestination = root.<String>get("accountDestination");
-                Predicate predicateAccDestiny = builder.like(campoAccountDestination,"%" +  transaction.getType() + "%" );
+                Predicate predicateAccDestiny = builder.like(campoAccountDestination,"%" +  transaction.getAccountDestination() + "%" );
                 predicates.add(predicateAccDestiny);
             }
 
