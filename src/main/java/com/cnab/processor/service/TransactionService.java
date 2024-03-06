@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 
 @Log4j2
 @Service
@@ -34,7 +34,7 @@ public class TransactionService {
      * @return Uma lista de transações que correspondem aos critérios de filtragem e paginadas de acordo com o objeto Pageable.
      */
     public Page findTransactions(Pageable page, String... filter) {
-        ;
+
 
         Transaction transaction =
                 Transaction.builder()

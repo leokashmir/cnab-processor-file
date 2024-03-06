@@ -93,7 +93,7 @@ public class SwaggerConfig {
     }
 
     private String getFindTransactions()  {
-            String json = """
+            return """
                     {
                         "content": [
                             {
@@ -149,13 +149,12 @@ public class SwaggerConfig {
                     }""";
 
 
-        return json;
+
     }
 
     private String getUploadSuccess()  {
 
-
-        var json = """
+        return """
                 {
                     "status": "success",
                     "message": "Arquivo CNAB enviado e processado com sucesso.",
@@ -184,6 +183,5 @@ public class SwaggerConfig {
                     }
                 }""";
 
-        return json;
     }
 }
