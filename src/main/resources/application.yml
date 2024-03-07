@@ -8,7 +8,7 @@ spring:
     name: cnab-processor-file
   datasource:
     url: jdbc:h2:mem:registrocreditorio
-    username: sa
+    username: super
     password: master
     driverClassName: org.h2.Driver
     h2:

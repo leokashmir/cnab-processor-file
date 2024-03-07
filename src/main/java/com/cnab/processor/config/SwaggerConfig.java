@@ -27,6 +27,12 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI baseOpenAPI()  {
+        ApiResponse conectedSuccess = new ApiResponse().content(
+                new Content().addMediaType("application/json",
+                        new io.swagger.v3.oas.models.media.MediaType().addExamples("default",
+                                new Example().value(
+                                        "{ -- Versão 1.0 do serviço esta On Line --- }"
+                                ))));
         ApiResponse uploadSuccess = new ApiResponse().content(
                 new Content().addMediaType("application/json",
                         new io.swagger.v3.oas.models.media.MediaType().addExamples("default",
@@ -68,6 +74,7 @@ public class SwaggerConfig {
 
 
         Components components = new Components();
+        components.addResponses("conectedSuccess", conectedSuccess);
         components.addResponses("uploadSuccess", uploadSuccess);
         components.addResponses("findSuccess", findSuccess);
         components.addResponses("badRequestUpload", badRequestUpload);
