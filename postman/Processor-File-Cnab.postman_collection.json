@@ -7,31 +7,31 @@
 	},
 	"item": [
 		{
-			"name": "Find Transactions",
+			"name": "Pesquisa de transações",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "companyId",
-						"value": "19000112000100",
+						"value": "311",
 						"type": "text",
 						"disabled": true
 					},
 					{
 						"key": "companyName",
-						"value": "Arc",
+						"value": "EMPRESA A",
 						"type": "text",
 						"disabled": true
 					},
 					{
 						"key": "accountOrigin",
-						"value": "0001234560000012",
+						"value": "4546",
 						"type": "text",
 						"disabled": true
 					},
 					{
 						"key": "accountDestination",
-						"value": "0000098765612349",
+						"value": "46546",
 						"type": "text",
 						"disabled": true
 					},
@@ -49,7 +49,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9410/cnab/processor/v1/transactions/find",
+					"raw": "http://localhost:9410/cnab/processor/v1/transactions/find?pageNumber=0&pageSize=5&",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -65,21 +65,33 @@
 					"query": [
 						{
 							"key": "pageNumber",
-							"value": "1",
-							"disabled": true
+							"value": "0"
 						},
 						{
 							"key": "pageSize",
-							"value": "5",
-							"disabled": true
+							"value": "5"
+						},
+						{
+							"key": "",
+							"value": null
 						}
 					]
-				}
+				},
+				"description": "\nThis endpoint retrieves a list of transactions by making an HTTP GET request to the specified URL. The response will be in JSON format and will include an array of transactions, each containing an id, company details, type, value, account origin, and account destination.\n\nThe response will have a status code of 200 upon successful execution.\n\nTo add documentation for this endpoint, the request and response parameters can be detailed, along with any query parameters or headers that may be required for the request.\n"
 			},
 			"response": []
 		},
 		{
-			"name": "Upload File",
+			"name": "Verifica Status do servidor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9410/cnab/processor/v1/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload de Arquivos",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -89,19 +101,19 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "../filestest/cnab-valido.txt"
-						},
-						{
-							"key": "file",
-							"type": "file",
-							"src": "../filestest/cnab-invalido.txt",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-invalido.txt",
 							"disabled": true
 						},
 						{
 							"key": "file",
 							"type": "file",
-							"src": "../filestest/cnab-valores-nulos.txt",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-valido.txt",
 							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-valores-nulos.txt"
 						}
 					]
 				},
