@@ -6,6 +6,7 @@ API Rest de exemplo para validação e persistencia de dados enviados através d
 Este aquivo contem informações sobre transações bancarias de crédito, débito e transferencias.
 
 
+#### 🔗 Link para o [@Front-End em Angular](https://github.com/leokashmir/gerenciador-cnab)
 
 ## Tecnologias
 
@@ -20,15 +21,14 @@ Este aquivo contem informações sobre transações bancarias de crédito, débi
 
 
 ## Premissas
-- Windows
 
-- Ter o Java JDK 11 ou superior instalado. Para verificar execute os seguintes passos: <br>
+  - Ter o Java JDK 11 ou superior instalado. Para verificar execute os seguintes passos no WINDOWS: <br>
 
-    - Abra o menu iniciar
-        - Em "pesquise" digite: cmd (Prompt de Comando)
-        - Clique em Abrir
-        - Com o prompt aberto, digite na linha de comando: Java --Version, aperte enter. <br>
-          Se o Java estiver instalado, algo similar a isto ira aparecer:<br>
+      - Abra o menu iniciar
+          - Em "pesquise" digite: cmd (Prompt de Comando)
+          - Clique em Abrir
+          - Com o prompt aberto, digite na linha de comando: Java --Version, aperte enter. <br>
+            Se o Java estiver instalado, algo similar a isto ira aparecer:<br>
 
 
        java 11.0.12 2021-07-20 LTS<br>

@@ -70,7 +70,7 @@ public class FileService {
      * @return Uma lista de objetos validados extraídos do arquivo.
      * @throws InvalidFileException Se ocorrer um erro durante a validação do arquivo.
      */
-    @SneakyThrows
+
     private List<Object> validateFile(MultipartFile file)  {
 
         File newFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
