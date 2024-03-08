@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "ecb773f0-d2f7-48a6-85f5-50d7ee875663",
+		"name": "Processor-File-Cnab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16523713"
+	},
+	"item": [
+		{
+			"name": "Pesquisa de transações",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "companyId",
+						"value": "311",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "companyName",
+						"value": "EMPRESA A",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "accountOrigin",
+						"value": "4546",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "accountDestination",
+						"value": "46546",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "type",
+						"value": "C",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "page",
+						"value": "0",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9410/cnab/processor/v1/transactions/find?pageNumber=0&pageSize=5&",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9410",
+					"path": [
+						"cnab",
+						"processor",
+						"v1",
+						"transactions",
+						"find"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						},
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				},
+				"description": "\nThis endpoint retrieves a list of transactions by making an HTTP GET request to the specified URL. The response will be in JSON format and will include an array of transactions, each containing an id, company details, type, value, account origin, and account destination.\n\nThe response will have a status code of 200 upon successful execution.\n\nTo add documentation for this endpoint, the request and response parameters can be detailed, along with any query parameters or headers that may be required for the request.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Verifica Status do servidor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9410/cnab/processor/v1/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload de Arquivos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-invalido.txt",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-valido.txt",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/estudo/cnab-processor-file/ArquivosTestes/cnab-valores-nulos.txt"
+						}
+					]
+				},
+				"url": "http://localhost:9410/cnab/processor/v1/file/upload"
+			},
+			"response": []
+		}
+	]
+}
